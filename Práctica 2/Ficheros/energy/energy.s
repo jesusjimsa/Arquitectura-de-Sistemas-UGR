@@ -1,0 +1,17 @@
+# http://www.osdev.org/osfaq2/index.php/AsmExample
+# gas no puede generar binarios planos por sí mismo sin la ayuda de ld
+# as -o boot.o boot.s
+# ld boot.o -o boot.bin --oformat binary
+
+.code16           # código de 16 bits
+
+.text              # sección de código
+	.globl _start  # punto de entrada
+
+_start:
+	cli            # deshabilitar interrupciones
+	hlt            # detener el procesador
+
+	.org 510       # posición de memoria 510
+	.word 0xAA55   # marca del sector de arranque
+

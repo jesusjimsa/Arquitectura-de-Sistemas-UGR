@@ -1,0 +1,4 @@
+nueva versión: __sync_syncronize() en https://stackoverflow.com/questions/19965076/gcc-memory-barrier-sync-synchronize-vs-asm-volatile-memory
+
+ver también http://en.cppreference.com/w/cpp/thread/lock para ejemplo de http://en.cppreference.com/w/cpp/thread/scoped_lock
+

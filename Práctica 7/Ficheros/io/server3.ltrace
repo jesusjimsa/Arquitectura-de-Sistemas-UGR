@@ -1,0 +1,15 @@
+% time     seconds  usecs/call     calls      function
+------ ----------- ----------- --------- --------------------
+ 20.65    1.229004        2400       512 fgets
+ 14.29    0.850556        1661       512 rewind
+ 12.79    0.761166        1486       512 std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State> >, void (*)())
+ 11.95    0.711299        1389       512 tmpfile
+  9.95    0.592086        1156       512 fwrite
+  8.47    0.503948         984       512 operator delete(void*)
+  8.32    0.495071         966       512 exit
+  7.69    0.457496         893       512 std::thread::_State::~_State()
+  4.91    0.292165         570       512 operator new(unsigned long)
+  0.97    0.057613         112       512 std::thread::join()
+  0.03    0.002067        2067         1 exit_group
+------ ----------- ----------- --------- --------------------
+100.00    5.952471                  5121 total

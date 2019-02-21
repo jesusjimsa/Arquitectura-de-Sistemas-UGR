@@ -1,0 +1,4 @@
+fgets
+fwrite
+rewind
+tmpfile

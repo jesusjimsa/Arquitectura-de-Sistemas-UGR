@@ -1,0 +1,5 @@
+// nulo.cc
+
+int main()
+{
+}

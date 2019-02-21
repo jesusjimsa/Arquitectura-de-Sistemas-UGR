@@ -1,0 +1,6 @@
+acabar tagged --> escribir stack.h
+crear ejemplo basado en boost::tagger_ptr
+crear ejemplo basado en boost::lockfree::stack
+crear ejemplo basado en hazard pointers
+----------------------------------------------
+mejorar ejemplos dejando de usar new/delete
