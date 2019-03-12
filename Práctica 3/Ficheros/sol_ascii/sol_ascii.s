@@ -38,6 +38,10 @@ controlador:
 
 ###############################################################################
 
+teclas: .ascii "1234567890....qwertyuiop....asdfghjkl.....zxcvbnm.... "
+
+###############################################################################
+
 	.org 510          # posición de memoria 510
 	.word 0xAA55      # marca del sector de arranque
 
