@@ -27,12 +27,22 @@ stop:
 
 controlador:
 	in $0x60, %al         # leer código de tecla pulsada
-	mov %si, %al
+	xor %ch, %ch		# Poner a 0 la primera mitad de cx
+	mov %al, %cl		# Guardar la tecla pulsada en cl
 	
-	movb hex(%si), %al
-
 	mov $0x0f, %ah        # color: blanco sobre negro
+	
+	# Primera parte
+	mov %cx, %si		# Guardar cx en el auxiliar si
+	shr $4, %si			# Desplazar a la derecha si 4 posiciones para quedarnos con la primera parte del hexadecimal
+	movb hex(%si), %al		# Convertir en hexadecimal y guardar en al para imprimir
 	stosw                 # imprimir caracter: %ax --> %es:(%di++)
+	
+	# Segunda parte
+	mov %cx, %si
+	and $0xf, %si		# Poner a 0 la mitad derecha del registro para imprimir la segunda parte del hexadecimal
+	movb hex(%si), %al
+	stosw
 
 	mov $0x20, %al        # código EOI
 	out %al, $0x20        # enviar EOI
