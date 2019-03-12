@@ -166,4 +166,8 @@ DerivedData/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+### By me ###
+*.bin
+*.att
+
 # End of https://www.gitignore.io/api/c,c++,xcode,macos,cmake,assembler,visualstudiocode
