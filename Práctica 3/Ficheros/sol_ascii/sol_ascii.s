@@ -26,15 +26,30 @@ stop:
 ###############################################################################
 
 controlador:
-	in $0x60, %al         # leer código de tecla pulsada
+	in $0x60, %al		# leer código de tecla pulsada
+	xor %ch, %ch		# Poner a 0 la primera mitad de cx
+	mov %al, %cl		# Guardar la tecla pulsada en cl
+
+	mov $0x20, %al      # código EOI
+	out %al, $0x20      # enviar EOI
 
 	mov $0x0f, %ah        # color: blanco sobre negro
-	stosw                 # imprimir caracter: %ax --> %es:(%di++)
 
-	mov $0x20, %al        # código EOI
-	out %al, $0x20        # enviar EOI
+	mov %cl, %al
 
-	iret                  # volver de la interrupción
+	cmp $0x02, %al		# Comprueba que si se pulsa la tecla de ESC
+	jl fin
+	cmp $0x40, %al		# Compureba si se pulsa una tecla "mayor" que espacio
+	jg fin
+
+imprimir:
+	sub $2, %al			# Resta 2 a la tecla para buscarlo más fácil en el vector de caracteres
+	mov $teclas, %bx	# Guardar teclas en auxiliar 
+	xlat				# Traducir la tecla pulsada a ascii
+	stosw				# imprimir caracter: %ax --> %es:(%di++)
+
+fin:
+	iret				# volver de la interrupción
 
 ###############################################################################
 
