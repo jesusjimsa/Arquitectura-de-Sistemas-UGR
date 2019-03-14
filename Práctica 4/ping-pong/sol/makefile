@@ -5,8 +5,7 @@ SHELL = bash
 
 ###############################################################################
 
-CXXFLAGS = -march=native -O3 -pthread -std=c++14 -Wall
-LDFLAGS = -lrt
+CXXFLAGS = -lrt -march=native -O3 -pthread -std=c++14 -Wall
 
 ###############################################################################
 

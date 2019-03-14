@@ -11,9 +11,8 @@
 int main()
 {
 	int msg = 0;
-	pid_t hijo = fork();
 
-	switch(hijo)
+	switch(fork())
 	{
 		case -1: 
 			std::cout << "fallo en fork()!";

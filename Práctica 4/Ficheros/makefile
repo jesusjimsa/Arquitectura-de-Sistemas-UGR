@@ -1,13 +1,27 @@
-SRC = $(wildcard *.c *.cc)
+ATT = $(EXE:=.att)
 EXE = $(basename $(SRC))
+SRC = $(wildcard *.c *.cc)
 
-CFLAGS = -march=native -O3 -pthread -Wall
-CXXFLAGS = $(CFLAGS) -std=c++11
-LDFLAGS = -lpthread -lrt
+CFLAGS = -march=native -Os -pthread -std=c11 -Wall
+CXXFLAGS = $(CFLAGS:c11=c++11)
 
-default: $(EXE)
+all: $(EXE)
+
+att: $(ATT)
 
 clean:
-	-rm -fv $(EXE) *~ core.*
+	-rm -fv $(ATT) $(EXE) *~ callgrind.out.* perf.data *.log
 
-.PHONY: clean default
+exe: $(EXE)
+
+%.att: %
+	objdump -Cd $< > $@
+
+%.log: %
+	valgrind --tool=callgrind --branch-sim=yes --cache-sim=yes --callgrind-out-file=$*.log --collect-bus=yes --collect-jumps=yes --dump-instr=yes --dump-line=yes -- ./$<
+
+%.cg: %.log
+	kcachegrind $<
+
+.PHONY: all att clean
+

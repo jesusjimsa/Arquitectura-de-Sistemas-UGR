@@ -7,15 +7,15 @@
 #include <unistd.h>
 
 #include <cassert>
+#include <cstring>
 #include <iostream>
 
 //---------------------------------------------------------
 
 int main()
 {
-	const int key = ftok("/tmp/com.shm", 3);
-	const int size = 100;
-	int shmid = shmget(key, size, IPC_CREAT | 0600);
+	int key = ftok("/tmp/com.shm", 3);
+	int shmid = shmget(key, 100, IPC_CREAT | 0600);
 	char *s = nullptr;
 	
 	assert(shmid != -1);
@@ -33,8 +33,7 @@ int main()
 			std::cout << std::endl;
 			break;
 		default:
-			int msg;
-			wait(&msg);
+			wait(nullptr);
 			s = static_cast<char*>(shmat(shmid, nullptr, 0));
 			std::cout << "padre ha recibido: " << s << std::endl;
 			break;
