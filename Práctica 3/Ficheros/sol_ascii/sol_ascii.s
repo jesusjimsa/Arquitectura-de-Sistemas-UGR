@@ -44,7 +44,7 @@ controlador:
 
 imprimir:
 	sub $2, %al			# Resta 2 a la tecla para buscarlo más fácil en el vector de caracteres
-	mov $teclas, %bx	# Guardar teclas en auxiliar 
+	mov $teclas, %bx	# Guardar teclas en auxiliar
 	xlat				# Traducir la tecla pulsada a ascii
 	stosw				# imprimir caracter: %ax --> %es:(%di++)
 
