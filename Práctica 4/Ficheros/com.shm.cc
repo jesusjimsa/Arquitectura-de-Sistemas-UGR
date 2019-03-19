@@ -19,8 +19,7 @@ int main(){
 
 	assert(shmid != -1);
 
-	switch(fork())
-	{
+	switch(fork()){
 		case -1:
 			std::cout << "fallo en fork()!"; break;
 		case 0:
