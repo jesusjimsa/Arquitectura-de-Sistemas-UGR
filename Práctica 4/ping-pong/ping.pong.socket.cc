@@ -13,8 +13,8 @@ int main(){
 	int ping = 0, pong = 0;
 	int sockd;
 
-	cout << "ping = " << ping << std::endl
-		 << "pong = " << pong << std::endl;
+	cout << "ping = " << ping << endl
+		 << "pong = " << pong << endl;
 }
 
 //---------------------------------------------------------
