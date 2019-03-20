@@ -2,7 +2,7 @@ ATT = $(EXE:=.att)
 EXE = $(basename $(SRC))
 SRC = $(wildcard *.c *.cc)
 
-CFLAGS = -march=native -Os -pthread -std=c11 -Wall
+CFLAGS = -march=native -g -Os -pthread -std=c11 -Wall
 CXXFLAGS = $(CFLAGS:c11=c++11)
 
 all: $(EXE)
@@ -11,6 +11,7 @@ att: $(ATT)
 
 clean:
 	-rm -fv $(ATT) $(EXE) *~ callgrind.out.* perf.data *.log
+	-rm -rf *.dSYM
 
 exe: $(EXE)
 
