@@ -10,7 +10,7 @@ using namespace std;
 
 int main(){
     int key = ftok("tmp/com.shm", 3);
-	int shmid = shmget(key, 100, 0644 | IPC_CREAT);
+	int shmid = shmget(key, 100, 0600 | IPC_CREAT);
 	char *data = nullptr;
 
 	switch(fork()){
