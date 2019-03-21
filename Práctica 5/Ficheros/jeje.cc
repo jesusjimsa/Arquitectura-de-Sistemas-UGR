@@ -10,5 +10,6 @@ void hello(int hola){
 int main(){
 	int i = 10;
 
-	thread(hello, std::cref(i));
+	thread t(hello, i);
+	t.join();
 }
