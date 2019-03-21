@@ -15,8 +15,11 @@ template<class T> T fib(T n, T &res){
 	else{
 		T res1, res2;
 
-		thread(fib, n - 1, res1);
-		thread(fib, n - 2, res2);
+		thread t(fib, n - 1, res1);
+		thread p(fib, n - 2, res2);
+
+		t.join();
+		p.join();
 
 		return res1 + res2;
 	}
