@@ -6,19 +6,28 @@
 
 using namespace std;
 
-template<class T> T fib(T n){
+template<class T> T fib(T n, T &res){
 	if (n < 2){
-		return n;
+		res = n;
+
+		return res;
 	}
 	else{
-		return thread(fib, n - 1) + thread(fib, n - 2);
+		T res1, res2;
+
+		thread(fib, n - 1, res1);
+		thread(fib, n - 2, res2);
+
+		return res1 + res2;
 	}
 }
 
 int main(int argc, char *argv[]){
 	if (argc < 2){
-		throw invalid_argument("necesito un número como parámetro");
+		throw invalid_argument("Necesito un número como parámetro");
 	}
+
+	unsigned long long resultado = 0.0;
 
 	istringstream iss(argv[1]);
 	
@@ -26,8 +35,8 @@ int main(int argc, char *argv[]){
 	iss >> n;
 	
 	if (!iss){
-		throw invalid_argument("el parámetro no es un número válido");
+		throw invalid_argument("El parámetro no es un número válido");
 	}
 
-	cout << argv[0] << "(" << argv[1] << ") = " << fib(n) << endl;
+	cout << argv[0] << "(" << argv[1] << ") = " << fib(n, resultado) << endl;
 }
