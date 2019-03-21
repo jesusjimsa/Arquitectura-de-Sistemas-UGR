@@ -8,9 +8,6 @@ using namespace std::chrono;
 
 int main(int argc, char* argv[])
 {
-	using namespace std;
-	using namespace std::chrono;
-
 	const int n = 1000;
 	duration<double, micro> rep[n];
 

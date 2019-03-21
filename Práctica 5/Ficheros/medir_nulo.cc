@@ -7,12 +7,12 @@
 #include <iostream>
 #include <limits>
 
+using namespace std;
+using namespace std::chrono;
+
 int main(int argc, char* argv[])
 {
-	using namespace std;
-	using namespace std::chrono;
-
-	const int n = 800;
+	const int n = 1000;
 	duration<double, micro> rep[n];
 
 	for (auto& r: rep)

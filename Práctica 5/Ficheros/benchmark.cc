@@ -2,8 +2,13 @@
 
 #include <cassert>
 #include <iostream>
+#include <mutex>
 #include <random>
 #include <unordered_map>
+
+//-----------------------------------------------------------------------------
+
+const int MAX_M = 4, MAX_N = 12;
 
 //-----------------------------------------------------------------------------
 
@@ -69,7 +74,7 @@ template<typename T> T ackermann3(T m, T n)
 
 template<typename T> T ackermann4(T m, T n)
 {
-	static const T M = 4, N = 1<<18;
+	static const T M = MAX_M, N = 1 << (MAX_M + MAX_N);
 	static T solution[M][N] = {{0}};
 	
 	assert(m < M && n < N);
@@ -89,12 +94,22 @@ template<typename T> T ackermann4(T m, T n)
 
 //-----------------------------------------------------------------------------
 
+template<typename T> T ackermann5(T m, T n)
+{
+	static std::once_flag flag;
+	std::call_once(flag, [&]{ ackermann4(MAX_M - 1, MAX_N - 1); });
+	
+	return ackermann4(m, n);
+}
+
+//-----------------------------------------------------------------------------
+
 template<typename F> void test(F& f)
 {
 	std::mt19937_64 gen(0);
-
-	for (int i = 0; i < 100; ++i)
-		f(gen() % 4, gen() % 12);
+	
+	for (int i = 0; i < 512; ++i)
+		f(gen() % MAX_M, gen() % MAX_N);
 }
 
 //-----------------------------------------------------------------------------
@@ -105,5 +120,6 @@ int main()
 	test(ackermann2<int>);
 	test(ackermann3<int>);
 	test(ackermann4<int>);
+	test(ackermann5<int>);
 }
 //-----------------------------------------------------------------------------

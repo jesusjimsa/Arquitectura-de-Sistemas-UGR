@@ -10,10 +10,10 @@ template<class T> T fib(T n)
 	static size_t last = 1;
 	static T solutions[N] = {0, 1};
 	
-	if (n > last)
+	while (n > last)
 	{
-		solutions[n] = fib(n - 2) + fib(n - 1);
-		last = n;
+		++last;
+		solutions[last] = solutions[last - 2] + solutions[last - 1];
 	}
 	
 	return solutions[n];

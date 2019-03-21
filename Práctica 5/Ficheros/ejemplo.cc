@@ -1,18 +1,19 @@
+#include <future>
 #include <iostream>
+#include <sstream>
 #include <thread>
 
-void hebra()
+void codigo()
 {
-	std::cout << "[2] hola: " 
-	          << std::this_thread::get_id() 
-	          << std::endl;
+	std::stringstream oss;
+	oss << "[" << std::this_thread::get_id() << "]: hola!\n";
+	std::cout << oss.str();
 }
 
 int main()
 {
-	std::cout << "[1] hola: " 
-	          << std::this_thread::get_id() 
-	          << std::endl;
-	std::thread t(hebra);
+	codigo();
+	std::thread t(codigo);
+	auto a = std::async(codigo);
 	t.join();
 }

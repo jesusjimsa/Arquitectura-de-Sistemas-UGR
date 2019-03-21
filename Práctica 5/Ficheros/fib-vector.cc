@@ -1,19 +1,19 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 
 using namespace std;
 
 template<class T> T fib(T n)
 {
-	static const size_t N = 10000;
+	static std::vector<T> solutions = {0, 1};
 	static size_t last = 1;
-	static T solutions[N] = {0, 1};
 	
-	if (n > last)
+	while (n > last)
 	{
-		solutions[n] = fib(n - 2) + fib(n - 1);
-		last = n;
+		++last;
+		solutions.push_back(solutions[last - 2] + solutions[last - 1]);
 	}
 	
 	return solutions[n];

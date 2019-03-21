@@ -10,7 +10,7 @@ template<typename T> T ackermann(T m, T n)
 int main()
 {
 	for (int m = 0; m < 4; ++m)
-		for (int n = 0; n < 14; ++n)
+		for (int n = 0; n < 13; ++n)
 			std::cout << "ackermann(" << m << ", " << n << ") = " 
 			          << ackermann(m, n) << std::endl;
 }

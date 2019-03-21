@@ -3,15 +3,13 @@
 
 int main()
 {
-	std::cout << "[1] hola: " 
-	          << std::this_thread::get_id() 
-	          << std::endl;
-	
-	std::thread t([]
+	auto hola = []
 	{
-		std::cout << "[2] hola: " 
-		          << std::this_thread::get_id() 
-		          << std::endl;
-	});
+		std::cout << "[" << std::this_thread::get_id() 
+		          << "]: hola!\n";
+	};
+	
+	hola();
+	std::thread t(hola);
 	t.join();
 }

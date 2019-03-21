@@ -1,19 +1,22 @@
 #include <iostream>
+#include <numeric>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 
 using namespace std;
 
 template<class T> T fib(T n)
 {
-	static const size_t N = 10000;
-	static size_t last = 1;
-	static T solutions[N] = {0, 1};
+	static std::vector<T> solutions = {0, 1};
 	
-	if (n > last)
+	std::size_t last = solutions.size();
+	
+	if (last <= n)
 	{
-		solutions[n] = fib(n - 2) + fib(n - 1);
-		last = n;
+		solutions.resize(n + 1);
+		for (auto i = solutions.begin() + last; i != solutions.end(); ++i)
+			*i = *(i - 2) + *(i - 1);
 	}
 	
 	return solutions[n];
