@@ -8,5 +8,7 @@ void hello(int hola){
 }
 
 int main(){
+	int i = 10;
+	
 	thread(hello, i);
 }
