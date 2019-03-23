@@ -14,12 +14,20 @@
 /* el puerto usado */
 #define PORT 2024
 
+const char PING = '1', PONG = '0';
+
 using namespace std;
 
 //---------------------------------------------------------
 
 int main(){
 	int ping = 0, pong = 0;
+	int sd;			// descriptor de socket
+	struct sockaddr_in server;	// la estructura utilizada para conectar
+	struct sockaddr_in from;
+	int client_id;
+	socklen_t length = sizeof(from);
+	char c;
 
 	switch (fork()){
 		case -1:
@@ -28,16 +36,43 @@ int main(){
 
 			break;
 		case 0:	// Hijo
+			if((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
+				cerr << "Error in socket()." << endl;
+				return errno;
+			}
+
+			/* llenamos la estructura utilizada para conectar al servidor */
+			/* la familia de socket */
+			server.sin_family = AF_INET;
+			
+			/* dirección IP del servidor */
+			server.sin_addr.s_addr = inet_addr("127.0.0.1");
+			
+			/* el puerto de conexión */
+			server.sin_port = htons(PORT);
+
+			if(connect(sd, (struct sockaddr *) &server, sizeof(struct sockaddr)) == -1){
+				cerr << "[client]Error in connect()." << endl;
+				return errno;
+			}
+
+			while(true){
+				send(sd, &PING, sizeof(char), 0);
+
+				do{
+					recv(sd, &c, sizeof(char), 0);
+				}while(c == PING);
+
+				ping++;
+			}
+
+			close(sd);
 
 			break;
-		default:
-			struct sockaddr_in server; // la estructura utilizada por el servidor
-			struct sockaddr_in from;
-			int sd; //descriptor de socket
-			socklen_t length = sizeof(from);
+		default:	// Padre
 			/* creando un socket */
 			if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
-				perror("[server]Error in socket().\n");
+				cerr << "[server]Error in socket()." << endl;
 				return errno;
 			}
 
@@ -57,17 +92,29 @@ int main(){
 
 			/* adjuntamos el socket */
 			if (bind(sd, (struct sockaddr *)&server, sizeof(struct sockaddr)) == -1){
-				perror("[server]Error in bind().\n");
+				cerr << "[server]Error in bind()." << endl;
 				return errno;
 			}
 
 			/* le pedimos al servidor que escuche si los clientes vienen a conectarse */
 			if (listen(sd, 5) == -1){
-				perror("[server]Error in listen().\n");
+				cerr << "[server]Error in listen()." << endl;
 				return errno;
 			}
+
+			client_id = accept(sd, (struct sockaddr *) &from, &length);
+
+			while(true){
+				send(client_id, &PONG, sizeof(char), 0);
+
+				do{
+					recv(client_id, &c, sizeof(char), 0);
+				}while(c == PONG);
+
+				pong++;
+			}
 			
-			
+			close(client_id);
 			close(sd);
 			
 			break;
@@ -75,7 +122,6 @@ int main(){
 
 	cout << "ping = " << ping << endl
 		 << "pong = " << pong << endl;
-	
 	
 }
 
