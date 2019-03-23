@@ -3,7 +3,7 @@
 //---------------------------------------------------------
 
 #include <iostream>
-#include <sys/socket.h>
+#include <socket.h>
 #include <sys/types.h>
 
 /* el puerto usado */
