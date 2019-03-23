@@ -75,6 +75,9 @@ int main(){
 				cerr << "[server]Error in socket()." << endl;
 				return errno;
 			}
+			else{
+				cout << "Socket creado" << endl;
+			}
 
 			/* preparación de estructuras de datos */
 			bzero(&server, sizeof(server));
@@ -95,14 +98,22 @@ int main(){
 				cerr << "[server]Error in bind()." << endl;
 				return errno;
 			}
+			else{
+				cout << "Socket adjuntado" << endl;
+			}
 
 			/* le pedimos al servidor que escuche si los clientes vienen a conectarse */
 			if (listen(sd, 5) == -1){
 				cerr << "[server]Error in listen()." << endl;
 				return errno;
 			}
+			else{
+				cout << "Socket escuchando" << endl;
+			}
 
 			client_id = accept(sd, (struct sockaddr *) &from, &length);
+
+			cout << "Entra en el bucle" << endl;
 
 			while(true){
 				send(client_id, &PONG, sizeof(char), 0);
