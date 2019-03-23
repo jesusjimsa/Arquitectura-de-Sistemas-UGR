@@ -61,6 +61,7 @@ int main(){
 
 				do{
 					recv(sd, &c, sizeof(char), 0);
+					cout << c;
 				}while(c == PING);
 
 				ping++;
