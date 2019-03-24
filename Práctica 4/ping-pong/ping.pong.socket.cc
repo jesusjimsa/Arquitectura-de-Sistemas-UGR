@@ -52,6 +52,9 @@ int main(){
 
 			break;
 		case 0:	// Hijo
+			signal(SIGALRM, show_ping);
+			alarm(1);
+
 			if((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
 				cerr << "Error in socket()." << endl;
 				return errno;
@@ -86,10 +89,13 @@ int main(){
 
 			break;
 		default:	// Padre
+			signal(SIGALRM, show_pong);
+			alarm(1);
+
 			/* creando un socket */
 			if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
 				cerr << "[server]Error in socket()." << endl;
-				return errno;
+skyscareturn errno;
 			}
 
 			/* preparación de estructuras de datos */
