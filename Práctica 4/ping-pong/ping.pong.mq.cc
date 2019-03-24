@@ -43,8 +43,8 @@ void show_pong(int){
 
 int main(){
 	mqd_t mq;
-	 struct mq_attr attr;
-	 char c;
+	struct mq_attr attr;
+	char c;
 
 	switch(fork()){
 		case -1:
@@ -64,10 +64,10 @@ int main(){
     		mq = mq_open(QUEUE_NAME, O_CREAT | O_RDWR | O_NONBLOCK, 0644, &attr);
 
 			while(true){
-				mq_send(mq, PONG, sizeof(char), 0);
+				mq_send(mq, &PONG, sizeof(char), 0);
 
 				do{
-					mq_receive(mq, c, sizeof(char), NULL);
+					mq_receive(mq, &c, sizeof(char), NULL);
 				}while(c == PONG);
 
 				pong++;
@@ -88,10 +88,10 @@ int main(){
     		mq = mq_open(QUEUE_NAME, O_CREAT | O_RDWR | O_NONBLOCK, 0644, &attr);
 
 			while(true){
-				mq_send(mq, PING, sizeof(char), 0);
+				mq_send(mq, &PING, sizeof(char), 0);
 
 				do{
-					mq_receive(mq, c, sizeof(char), NULL);
+					mq_receive(mq, &c, sizeof(char), NULL);
 				}while(c == PING);
 
 				ping++;
