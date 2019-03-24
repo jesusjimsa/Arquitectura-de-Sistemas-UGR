@@ -3,9 +3,15 @@
 //---------------------------------------------------------
 
 #include <iostream>
+#include <mqueue.h>
+#include <string.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+#include <sys/wait.h>
 #include <fcntl.h>           /* For O_* constants */
 #include <sys/stat.h>        /* For mode constants */
-#include <mqueue.h>
 
 #define QUEUE_NAME  "/ping_pong_queue"
 #define MAX_SIZE    1024
