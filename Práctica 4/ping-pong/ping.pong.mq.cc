@@ -39,6 +39,17 @@ void show_pong(int){
 
 //---------------------------------------------------------
 
+void initialize_mq(mqd_t *mq, struct mq_attr *attr){
+	/* initialize the queue attributes */
+	attr.mq_flags = 0;
+	attr.mq_maxmsg = 10;
+	attr.mq_msgsize = sizeof(char);
+	attr.mq_curmsgs = 0;
+
+	/* create the message queue */
+	mq = mq_open(QUEUE_NAME, O_CREAT | O_RDWR | O_NONBLOCK, 0644, &attr);
+}
+
 //---------------------------------------------------------
 
 int main(){
@@ -54,14 +65,7 @@ int main(){
 			signal(SIGALRM, show_pong);
 			alarm(1);
 
-			/* initialize the queue attributes */
-			attr.mq_flags = 0;
-			attr.mq_maxmsg = 10;
-			attr.mq_msgsize = sizeof(char);
-			attr.mq_curmsgs = 0;
-
-			/* create the message queue */
-    		mq = mq_open(QUEUE_NAME, O_CREAT | O_RDWR | O_NONBLOCK, 0644, &attr);
+			initialize_mq(&mq, &attr);
 
 			while(true){
 				mq_send(mq, &PONG, sizeof(char), 0);
@@ -73,19 +77,16 @@ int main(){
 				pong++;
 			}
 
+			/* cleanup */
+			mq_close(mq);
+			mq_unlink(QUEUE_NAME);
+
 			break;
 		default:	// Padre
 			signal(SIGALRM, show_ping);
 			alarm(1);
 
-			/* initialize the queue attributes */
-			attr.mq_flags = 0;
-			attr.mq_maxmsg = 10;
-			attr.mq_msgsize = sizeof(char);
-			attr.mq_curmsgs = 0;
-
-			/* create the message queue */
-    		mq = mq_open(QUEUE_NAME, O_CREAT | O_RDWR | O_NONBLOCK, 0644, &attr);
+			initialize_mq(&mq, &attr);
 
 			while(true){
 				mq_send(mq, &PING, sizeof(char), 0);
@@ -97,12 +98,12 @@ int main(){
 				ping++;
 			}
 
+			/* cleanup */
+			mq_close(mq);
+			mq_unlink(QUEUE_NAME);
+
 			break;
 	}
-
-	/* cleanup */
-    mq_close(mq);
-    mq_unlink(QUEUE_NAME);
 }
 
 //---------------------------------------------------------
