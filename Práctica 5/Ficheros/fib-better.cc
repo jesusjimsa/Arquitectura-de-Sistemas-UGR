@@ -2,26 +2,16 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <thread>
+#include <future>   // async future
 
 using namespace std;
 
-template<class T> T fib(T n, T &res){
+template<class T> T fib(T n){
 	if (n < 2){
-		res = n;
-
-		return res;
+		return n;
 	}
 	else{
-		T res1, res2;
-
-		thread t(fib, n - 1, res1);
-		thread p(fib, n - 2, res2);
-
-		t.join();
-		p.join();
-
-		return res1 + res2;
+		return async(fib<T>, n - 1).get() + async(fib<T>, n - 2).get();
 	}
 }
 
@@ -29,8 +19,6 @@ int main(int argc, char *argv[]){
 	if (argc < 2){
 		throw invalid_argument("Necesito un número como parámetro");
 	}
-
-	unsigned long long resultado = 0.0;
 
 	istringstream iss(argv[1]);
 	
@@ -41,5 +29,5 @@ int main(int argc, char *argv[]){
 		throw invalid_argument("El parámetro no es un número válido");
 	}
 
-	cout << argv[0] << "(" << argv[1] << ") = " << fib(n, resultado) << endl;
+	cout << argv[0] << "(" << argv[1] << ") = " << fib(n) << endl;
 }
