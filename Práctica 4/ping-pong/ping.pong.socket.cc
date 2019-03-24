@@ -14,14 +14,30 @@
 /* el puerto usado */
 #define PORT 2024
 
-const char PING = '1', PONG = '0';
-
 using namespace std;
+
+const char PING = '1', PONG = '0';
+int ping = 0, pong = 0;
+
+//---------------------------------------------------------
+
+void show_ping(int){
+	cout << "ping = " << ping << endl;
+
+	exit(EXIT_SUCCESS);
+}
+
+//---------------------------------------------------------
+
+void show_pong(int){
+	cout << "pong = " << pong << endl;
+
+	exit(EXIT_SUCCESS);
+}
 
 //---------------------------------------------------------
 
 int main(){
-	int ping = 0, pong = 0;
 	int sd;			// descriptor de socket
 	struct sockaddr_in server;	// la estructura utilizada para conectar
 	struct sockaddr_in from;
@@ -61,7 +77,6 @@ int main(){
 
 				do{
 					recv(sd, &c, sizeof(char), 0);
-					cout << c;
 				}while(c == PING);
 
 				ping++;
@@ -75,9 +90,6 @@ int main(){
 			if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
 				cerr << "[server]Error in socket()." << endl;
 				return errno;
-			}
-			else{
-				cout << "Socket creado" << endl;
 			}
 
 			/* preparación de estructuras de datos */
@@ -99,22 +111,14 @@ int main(){
 				cerr << "[server]Error in bind()." << endl;
 				return errno;
 			}
-			else{
-				cout << "Socket adjuntado" << endl;
-			}
 
 			/* le pedimos al servidor que escuche si los clientes vienen a conectarse */
 			if (listen(sd, 5) == -1){
 				cerr << "[server]Error in listen()." << endl;
 				return errno;
 			}
-			else{
-				cout << "Socket escuchando" << endl;
-			}
 
 			client_id = accept(sd, (struct sockaddr *) &from, &length);
-
-			cout << "Entra en el bucle" << endl;
 
 			while(true){
 				send(client_id, &PONG, sizeof(char), 0);
@@ -131,10 +135,6 @@ int main(){
 			
 			break;
 	}
-
-	cout << "ping = " << ping << endl
-		 << "pong = " << pong << endl;
-	
 }
 
 //---------------------------------------------------------
