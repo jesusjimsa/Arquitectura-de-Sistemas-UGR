@@ -95,7 +95,7 @@ int main(){
 			/* creando un socket */
 			if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
 				cerr << "[server]Error in socket()." << endl;
-skyscareturn errno;
+				return errno;
 			}
 
 			/* preparación de estructuras de datos */
