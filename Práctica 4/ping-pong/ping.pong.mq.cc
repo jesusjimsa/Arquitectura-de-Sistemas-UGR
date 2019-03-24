@@ -54,7 +54,6 @@ int main(){
 
 			/* initialize the queue attributes */
 			attr.mq_flags = 0;
-			attr.mq_maxmsg = 10;
 			attr.mq_msgsize = sizeof(char);
 			attr.mq_curmsgs = 0;
 
@@ -82,7 +81,6 @@ int main(){
 
 			/* initialize the queue attributes */
 			attr.mq_flags = 0;
-			attr.mq_maxmsg = 10;
 			attr.mq_msgsize = sizeof(char);
 			attr.mq_curmsgs = 0;
 
