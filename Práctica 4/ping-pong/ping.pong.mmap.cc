@@ -4,8 +4,6 @@
 #include <unistd.h>
 #include <iostream>
 
-using namespace std;
-
 //---------------------------------------------------------
 
 int ping = 0, pong = 0;
@@ -13,14 +11,14 @@ int ping = 0, pong = 0;
 //---------------------------------------------------------
 
 void show_ping(int){
-	cout << "ping = " << ping << endl;
+	std::cout << "ping = " << ping << std::endl;
 	exit(EXIT_SUCCESS);
 }
 
 //---------------------------------------------------------
 
 void show_pong(int){
-	cout << "pong = " << pong << endl;
+	std::cout << "pong = " << pong << std::endl;
 	exit(EXIT_SUCCESS);
 }
 
@@ -36,7 +34,7 @@ int main(){
 
 	switch(fork()){
 		case -1: // fallo
-			cout << "fallo en fork()!" << endl;
+			std::cout << "fallo en fork()!" << std::endl;
 			exit(EXIT_FAILURE);
 
 			break;
@@ -46,7 +44,6 @@ int main(){
 
 			while (true){
 				while (table == PONG);
-
 				table = PONG;
 				++pong;
 			}
@@ -58,13 +55,15 @@ int main(){
 
 			while (true){
 				while (table == PING);
-
 				table = PING;
 				++ping;
 			}
 
 			wait(nullptr);
-
+			
 			break;
 	}
 }
+
+//---------------------------------------------------------
+
