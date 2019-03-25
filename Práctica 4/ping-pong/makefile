@@ -5,10 +5,13 @@ SHELL = bash
 
 ###############################################################################
 
-CXXFLAGS = -lrt -march=native -g -O3 -pthread -std=c++14 -Wall
+CXXFLAGS = -march=native -O3 -pthread -std=c++14 -Wall
+LDFLAGS = -Wl,--no-as-needed
+LDLIBS = -lrt
 
 ###############################################################################
 
+ATT = $(EXE:=.att)
 SRC = $(sort $(wildcard *.cc))
 EXE = $(basename $(SRC))
 DAT = $(EXE:=.dat)
@@ -17,39 +20,44 @@ VER = $(EXE:=.ver)
 
 ###############################################################################
 
-default: $(EXE) clave $(VER)
+all: $(EXE) clave $(VER)
 	@printf '%60s\n' | tr ' ' -
+
+att: $(ATT)
 
 clave:
 	@printf '%60s\n' | tr ' ' -
 	echo -e "clave:\tprograma = tipo de paso de mensajes"
-	echo -e "\t    suma = pings + pongs"
-	echo -e "\t   total = tiempo de usuario + tiempo de sistema"
-	echo -e "\t   ratio = suma / total"
+	echo -e "\tmensajes = pings + pongs"
+	echo -e "\t  tiempo = tiempo total en ms"
+	echo -e "\t   ratio = suma / tiempo"
 	printf '%60s\n' | tr ' ' -
-	echo -e "          programa        suma       total       ratio"
+	echo -e "          programa      mensajes      tiempo       ratio"
 	printf '%60s\n' | tr ' ' -
 
 clean:
 	-find -maxdepth 2 -mindepth 2 -name makefile -execdir make $@ {} \;
-	-rm -fv -rf $(ATT) $(DAT) $(EXE) $(LOG) core.* *~
+	-rm -fv -rf $(ATT) $(DAT) $(EXE) $(LOG) {vg,}core.* perf.data *~
 
-ratio:	clave
-	@$(MAKE) -s $(VER) | grep -v '-' | sort -h -k 4 -r
+ratio: clave
+	@$(MAKE) -s $(VER) | sort -h -k 4 -r
 	printf '%60s\n' | tr ' ' -
 
-suma:	clave
-	@$(MAKE) -s $(VER) | grep -v '-' | sort -h -k 2 -r
+mensajes: clave
+	@$(MAKE) -s $(VER) | sort -h -k 2 -r
 	printf '%60s\n' | tr ' ' -
 
-total:	clave
-	@$(MAKE) -s $(VER) | grep -v '-' | sort -h -k 3
+tiempo: clave
+	@$(MAKE) -s $(VER) | sort -h -k 3
 	printf '%60s\n' | tr ' ' -
 
 ###############################################################################
 
+%.att: %
+	objdump -CdS $< > $@
+
 %.dat %.log: %
-	@/usr/bin/time -v ./$< 1> $*.log 2> $*.dat
+	@LANG=en perf stat ./$< 1> $*.log 2> $*.dat
 
 %.ver: %.dat %.log
 	@function lpad { printf "%$$(( $$2 - $${#1} ))s$$1"; }
@@ -64,16 +72,14 @@ total:	clave
 	}
 	pings=`grep 'ping' $*.log | grep -o '[[:digit:]]*'`
 	pongs=`grep 'pong' $*.log | grep -o '[[:digit:]]*'`
-	(( sum = pings + pongs ))
-	user=`grep 'User time' $*.dat | grep -o '[[:digit:]].[[:digit:]]*'`
-	system=`grep 'System time' $*.dat | grep -o '[[:digit:]].[[:digit:]]*'`
-	total=`bc <<< "$$user+$$system"`
-	ratio=`bc <<< "$$sum/$$total" 2> /dev/null`
-	pretty_print $* $$sum $$total $$ratio
+	(( msg = pings + pongs ))
+	time=$$(grep task-clock $*.dat | tr -s ' ' | cut -d ' ' -f 2)
+	ratio=$$(bc -l <<< "scale=2; $$msg/$$time" 2> /dev/null)
+	pretty_print $* $$msg $$time $$ratio
 
 ###############################################################################
 
-.PHONY: all clave clean default
+.PHONY: all att clave clean 
 .PRECIOUS: $(LOG) $(DAT)
 .NOEXPORT:
 
