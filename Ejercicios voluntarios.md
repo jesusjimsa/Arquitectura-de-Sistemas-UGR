@@ -1,4 +1,10 @@
 # Respuestas ejercicios voluntarios
+
+- [Respuestas ejercicios voluntarios](#respuestas-ejercicios-voluntarios)
+	- [¿Cúantos 8086 caben en un Core i9-9900K? Compara rendimiento n8086/CPU/GPU](#%C2%BFc%C3%BAantos-8086-caben-en-un-core-i9-9900k-compara-rendimiento-n8086cpugpu)
+	- [IOMMU](#iommu)
+	- [Coste del cambio de contexto](#coste-del-cambio-de-contexto)
+
 ## ¿Cúantos 8086 caben en un Core i9-9900K? Compara rendimiento n8086/CPU/GPU  
 ~~Un _8086_ tiene una velocidad de 5 MHz y el _Core i9-9900K_ tiene una velocidad de 3,6 GHz. Teniendo esto en cuenta, podemos decir que en el _i9_ caben 720 _8086_.~~  
 ~~El _8086_ tiene una arquitectura del mismo nombre, con transistores de 3 µm y tamaño de palabra de 16 bits. No puede ejecutar gráficos.~~  
@@ -14,3 +20,7 @@ Las ventajas de tener una IOMMU incluyen:
 Las desventajas son:
 - Degradación del rendimiento por sobrecarga de traducción.
 - Consumo de memoria física para las tablas página E/S añadidas.
+
+## Coste del cambio de contexto
+En el sistema operativo Linux, con la versión del kernel 2.6 o superior, un cambio de contexto toma de media entre 1 y 2 µs.  
+En el sistema operativo macOS, con la versión 10.14.3, menos de 10 µs (no he encontrado información más precisa).  
