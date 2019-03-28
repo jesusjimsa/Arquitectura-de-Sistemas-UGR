@@ -88,8 +88,7 @@ template<class F> void test(F& f){
 
 int main(){
 	for (int i = 0; i < N; ++i)
-		for (int j = 0; j < N; ++j)
-		{
+		for (int j = 0; j < N; ++j){
 			b[i][j] = B;
 			c[i][j] = C;
 		}
