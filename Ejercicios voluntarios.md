@@ -22,5 +22,5 @@ Las desventajas son:
 - Consumo de memoria física para las tablas página E/S añadidas.
 
 ## Coste del cambio de contexto
-En el sistema operativo Linux, con la versión del kernel 2.6 o superior, un cambio de contexto toma de media entre 1 y 2 µs.  
+En el sistema operativo Linux, con la versión del kernel 2.6, un cambio de contexto toma de media entre 1 y 2 µs.  
 En el sistema operativo macOS, con la versión 10.14.3, menos de 10 µs (no he encontrado información más precisa).  
