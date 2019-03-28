@@ -20,7 +20,7 @@ all: $(PNG)
 	-find -mindepth 2 -iname 'makefile' -execdir make \;
 
 clean:
-	-rm -fv $(DAT) $(EXE) $(GP) $(PNG) $(SVG) *~ core.* *.log callgrind.out.* gmon.out perf.data*
+	-rm -fv $(DAT) $(EXE) $(GP) $(PNG) $(SVG) *~ {vg,}core.* *.log callgrind.out.* gmon.out perf.data*
 	-find -mindepth 2 -iname 'makefile' -execdir make $@ \;
 
 perf: matrix
