@@ -8,8 +8,7 @@ const int B = 2, C = 3, N = 1000;
 
 int a[N][N], b[N][N], c[N][N];
 
-void f1()
-{
+void f1(){
 	for (int i = 0; i < N; ++i)
 		for (int j = 0; j < N; ++j)
 		{
@@ -19,8 +18,7 @@ void f1()
 		}
 }
 
-void f2()
-{
+void f2(){
 	for (int i = 0; i < N; ++i)
 		for (int j = 0; j < N; ++j)
 			a[i][j] = 0;
@@ -31,8 +29,7 @@ void f2()
 				a[i][j] += b[i][k] * c[k][j];
 }
 
-void f3()
-{
+void f3(){
 	for (int i = 0; i < N; ++i)
 		for (int j = 0; j < N; ++j)
 			a[i][j] = 0;
@@ -43,8 +40,7 @@ void f3()
 				a[i][j] += b[i][k] * c[k][j];
 }
 
-void f4()
-{
+void f4(){
 	for (int i = 0; i < N; ++i)
 		for (int j = 0; j < N; ++j)
 			a[i][j] = 0;
@@ -55,8 +51,7 @@ void f4()
 				a[i][j] += b[i][k] * c[k][j];
 }
 
-void f5()
-{
+void f5(){
 	for (int i = 0; i < N; ++i)
 		for (int j = 0; j < N; ++j)
 			a[i][j] = 0;
@@ -67,8 +62,7 @@ void f5()
 				a[i][j] += b[i][k] * c[k][j];
 }
 
-void f6()
-{
+void f6(){
 	for (int i = 0; i < N; ++i)
 		for (int j = 0; j < N; ++j)
 			a[i][j] = 0;
@@ -79,8 +73,7 @@ void f6()
 				a[i][j] += b[i][k] * c[k][j];
 }
 
-template<class F> void test(F& f)
-{
+template<class F> void test(F& f){
 	f();
 	auto start = std::chrono::high_resolution_clock::now();
 	f();
@@ -93,8 +86,7 @@ template<class F> void test(F& f)
 	assert(a[999][999] == B * C * N);
 }
 
-int main()
-{
+int main(){
 	for (int i = 0; i < N; ++i)
 		for (int j = 0; j < N; ++j)
 		{
