@@ -46,10 +46,6 @@ array<T, N> operator*(const array<T, N>& a, const T& b){
 	}
 
 	return a2;
-//	auto a2 = a;
-//	for (size_t i = 0; i < a2.size(); ++i)
-//		a2[i] *= b;
-//	return a2;
 }
 
 //-----------------------------------------------------------------------------
