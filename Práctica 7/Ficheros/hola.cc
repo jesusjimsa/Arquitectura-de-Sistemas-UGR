@@ -1,13 +1,16 @@
 #include <iostream>
 #include <thread>
 
-void hola() { std::cout << "hola"; }
+using namespace std;
 
-int main()
-{
-	std::thread t1(hola);
+void hola(){
+	cout << "hola";
+}
+
+int main(){
+	thread t1(hola);
 	t1.join();
 
-	std::thread t2([]{ std::cout << " mundo!\n"; });
+	thread t2([]{ cout << " mundo!\n"; });
 	t2.join();
 }

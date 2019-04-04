@@ -2,7 +2,6 @@
 
 #include "work.h"
 
-int main()
-{
+int main(){
 	work(0, N);
 }
