@@ -2,10 +2,8 @@
 
 const int N = 1000;
 
-void work(int begin, int end)
-{
-	for (int i = begin; i < end; ++i)
-	{
+void work(int begin, int end){
+	for (int i = begin; i < end; ++i){
 		// open bw+
 		std::FILE *f = std::tmpfile();
 		
