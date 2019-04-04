@@ -10,7 +10,7 @@ all: $(EXE)
 	@for i in $^; do 
 		rm -f *.dat
 		echo -n "$$i: "
-		perf stat -r 5 -- ./$$i |& grep 'task-clock' | tr -s ' '
+		perf stat -a -r 5 -- ./$$i |& grep 'time elapsed' | tr -s ' '
 	done
 
 clean:
