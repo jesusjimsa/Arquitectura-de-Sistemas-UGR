@@ -2,7 +2,7 @@
 // pthread2.cc
 //-------------------------------------------------
 
-#include <pthread.h> // pthread_create pthread_joi
+#include <pthread.h> // pthread_create pthread_join
 #include <unistd.h>  // alarm sleep
 #include <csignal>   // signal SIGALRM
 #include <iostream>  // endl cout 

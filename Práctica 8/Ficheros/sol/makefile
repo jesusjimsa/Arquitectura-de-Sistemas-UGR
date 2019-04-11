@@ -4,7 +4,7 @@ SHELL = /bin/bash
 SRC = $(wildcard *.c *.cc)
 EXE = $(basename $(SRC))
 
-CFLAGS = -march=native -O3 -pthread --std=c11 -Wall -Werror
+CFLAGS = -march=native -O3 -pthread --std=c11 -Wall
 CXXFLAGS = $(CFLAGS:c11=c++14)
 
 all: $(EXE) test
