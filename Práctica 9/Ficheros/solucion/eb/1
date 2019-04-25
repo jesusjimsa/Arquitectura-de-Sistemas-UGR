@@ -1,0 +1,22 @@
+./mensaje: Alarm clock
+./mensaje: Alarm clock
+./mensaje: Alarm clock
+./mensaje: Alarm clock
+./mensaje: Alarm clock
+
+ Performance counter stats for './mensaje' (5 runs):
+
+           3732.50 msec task-clock                #    3.724 CPUs utilized            ( +-  0.46% )
+            239534      context-switches          #    0.064 M/sec                    ( +-  1.59% )
+               562      cpu-migrations            #    0.150 K/sec                    ( +-  4.32% )
+               160      page-faults               #    0.043 K/sec                    ( +-  0.77% )
+       12262510958      cycles                    #    3.285 GHz                      ( +-  1.59% )  (83.35%)
+        3534067227      stalled-cycles-frontend   #   28.82% frontend cycles idle     ( +-  1.86% )  (83.30%)
+        5447971574      stalled-cycles-backend    #   44.43% backend cycles idle      ( +-  1.81% )  (33.36%)
+        4591915352      instructions              #    0.37  insn per cycle         
+                                                  #    1.19  stalled cycles per insn  ( +-  1.44% )  (50.12%)
+         921934811      branches                  #  247.002 M/sec                    ( +-  1.42% )  (66.87%)
+          23712448      branch-misses             #    2.57% of all branches          ( +-  2.23% )  (83.45%)
+
+         1.0023160 +- 0.0000854 seconds time elapsed  ( +-  0.01% )
+

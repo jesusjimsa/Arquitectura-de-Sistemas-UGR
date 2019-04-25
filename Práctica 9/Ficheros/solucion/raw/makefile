@@ -8,8 +8,9 @@ DAT = $(EXE:=.dat)
 LOG = $(EXE:=.log)
 ST  = $(EXE:=.st)
 
-CFLAGS = -march=native -O3 -pthread -Wall -Wl,--no-as-needed # -fno-inline-functions -g 
+CFLAGS = -march=native -O3 -pthread -Wall  # -fno-inline-functions -g
 CXXFLAGS = $(CFLAGS) --std=c++14
+LDFLAGS = -Wl,--no-as-needed
 
 all: stat
 

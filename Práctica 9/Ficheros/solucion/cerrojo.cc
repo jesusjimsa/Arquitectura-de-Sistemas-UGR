@@ -16,8 +16,6 @@ using namespace std;
 
 const int N = 16;
 
-bool run = false;
-
 //----------------------------------------------------
 
 class cerrojo
