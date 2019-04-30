@@ -18,8 +18,7 @@ const int N = 16;
 
 //----------------------------------------------------
 
-void seccion_critica()
-{
+void seccion_critica(){
 	cout << "[" << this_thread::get_id() << "]: ";
 	for(int i = 0; i < 10; ++i)
 		cout << i;
@@ -28,18 +27,15 @@ void seccion_critica()
 
 //----------------------------------------------------
 
-void hebra()
-{
-	while(true)
-	{
+void hebra(){
+	while(true){
 		seccion_critica();
 	}
 }
 
 //----------------------------------------------------
 
-int main()
-{
+int main(){
 	thread t[N];
 	
 	alarm(1);
