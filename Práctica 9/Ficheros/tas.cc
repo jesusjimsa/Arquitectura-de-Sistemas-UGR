@@ -20,17 +20,33 @@ const int N = 16;
 
 bool test_and_set(volatile bool *spinlock){
 	bool ret;
-	__asm__ __volatile__("":::);
+	
+	__asm__ __volatile__(
+		"lock xchgb %0, %1"
+		: "=r" (ret), "=m" (*spinlock)
+		: "0" (true), "m" (*spinlock)
+		: "memory"
+	); 
+	
 	return ret;
 }
 
 //----------------------------------------------------
 
-class cerrojo{
+class cerrojo {
 public:
-	cerrojo(){}
-	void adquirir() {}
-	void liberar() {}
+	cerrojo(): cerrado(false) {} // inicialmente abierto
+
+	void adquirir() {
+		while (cerrado); // espera ocupada
+		cerrado = true; // cerrar
+	}
+
+	void liberar() {
+		cerrado = false; // abrir
+	}
+private:
+	bool cerrado;
 } c;
 
 //----------------------------------------------------
