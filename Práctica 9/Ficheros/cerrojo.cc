@@ -31,7 +31,7 @@ public:
 		cerrado = false; // abrir
 	}
 private:
-	bool cerrado; // atomic/volatile/optimización???
+	bool cerrado;
 } c;
 
 //----------------------------------------------------
