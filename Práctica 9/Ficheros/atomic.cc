@@ -18,12 +18,17 @@ const int N = 16;
 
 //----------------------------------------------------
 
-class cerrojo{
+class cerrojo {
 public:
-	cerrojo() {}
-	void adquirir() { }
-	void liberar() { }
+	cerrojo(): cerrado(false) {} // inicialmente abierto
 
+	void adquirir() {
+		while (cerrado.exchange(true)); // espera ocupada
+	}
+
+	void liberar() {
+		cerrado = false; // abrir
+	}
 private:
 	atomic<bool> cerrado;
 } c;
