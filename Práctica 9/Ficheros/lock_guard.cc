@@ -7,6 +7,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <mutex>
 
 //----------------------------------------------------
 
@@ -15,6 +16,7 @@ using namespace std;
 //----------------------------------------------------
 
 const int N = 16;
+mutex mtx;
 
 //----------------------------------------------------
 
@@ -29,6 +31,7 @@ void seccion_critica(){
 
 void hebra(){
 	while(true){
+		lock_guard<mutex> lock(mtx);
 		seccion_critica();
 	}
 }
