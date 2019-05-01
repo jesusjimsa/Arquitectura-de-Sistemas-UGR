@@ -18,11 +18,20 @@ const int N = 16;
 
 //----------------------------------------------------
 
-class cerrojo{
+class cerrojo {
 public:
-	cerrojo(){}
-	void adquirir() {}
-	void liberar() {}
+	cerrojo(): cerrado(false) {} // inicialmente abierto
+
+	void adquirir() {
+		while (cerrado); // espera ocupada
+		cerrado = true; // cerrar
+	}
+
+	void liberar() {
+		cerrado = false; // abrir
+	}
+private:
+	bool cerrado; // atomic/volatile/optimización???
 } c;
 
 //----------------------------------------------------
@@ -48,7 +57,7 @@ void hebra(){
 
 int main(){
 	thread t[N];
-	
+
 	alarm(1);
 	for(auto& i: t) i = thread(hebra);
 	for(auto& i: t) i.join();

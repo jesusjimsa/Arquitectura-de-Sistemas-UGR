@@ -3,6 +3,7 @@
 //----------------------------------------------------
 
 #include <unistd.h>
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <iostream>
@@ -15,15 +16,8 @@ using namespace std;
 //----------------------------------------------------
 
 const int N = 16;
-
-//----------------------------------------------------
-
-class cerrojo{
-public:
-	cerrojo(){}
-	void adquirir() {}
-	void liberar() {}
-} c;
+volatile bool escoger[N]{false};
+volatile int numero[N]{0};
 
 //----------------------------------------------------
 
@@ -36,11 +30,21 @@ void seccion_critica(){
 
 //----------------------------------------------------
 
-void hebra(){
+void hebra(int i){
 	while(true){
-		c.adquirir();
+		// Adquirir
+		escoger[i] = true;
+		numero[i] = *max_element(&numero[0], &numero[0] + N) + 1;
+		escoger[i] = false;
+
+		for (int j = 0; j < N; ++j){
+			while (escoger[j]);
+
+			while (numero[j] != 0 && (numero[j], j) < (numero[i], i));
+		}
+
 		seccion_critica();
-		c.liberar();
+		numero[i] = 0;	// Liberar
 	}
 }
 
@@ -50,7 +54,7 @@ int main(){
 	thread t[N];
 	
 	alarm(1);
-	for(auto& i: t) i = thread(hebra);
+	for(int i = 0; i < N; i++) t[i] = thread(hebra, i);
 	for(auto& i: t) i.join();
 
 }
