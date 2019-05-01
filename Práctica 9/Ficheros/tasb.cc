@@ -18,11 +18,19 @@ const int N = 16;
 
 //----------------------------------------------------
 
-class cerrojo{
+class cerrojo {
 public:
-	cerrojo(){}
-	void adquirir() {}
-	void liberar() {}
+	cerrojo(): cerrado(false) {} // inicialmente abierto
+
+	void adquirir() {
+		while(__sync_lock_test_and_set(&cerrado, true));
+	}
+
+	void liberar() {
+		cerrado = false; // abrir
+	}
+private:
+	bool cerrado;
 } c;
 
 //----------------------------------------------------
