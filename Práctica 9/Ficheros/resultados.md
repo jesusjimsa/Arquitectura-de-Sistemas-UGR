@@ -1,3 +1,4 @@
+# Resultados
 bien  : número de mensajes correctos  
 mal   : número de mensajes incorrectos  
 total : bien + mal  
