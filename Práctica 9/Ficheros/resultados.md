@@ -9,8 +9,8 @@ sys   : tiempo de sistema en segundos
 tiempo: user + sys  
 ratio : bien / tiempo --> número de mensajes correctos por segundo  
 
-| programa  | bien |   mal | total hebras |  real  | user  |  sys | tiempo | ratio |
-| ----------|-----|--------|--------------|--------|-------|------|--------|-------|
+| programa  | bien |   mal | total | hebras |  real  | user  |  sys | tiempo | ratio |
+| ----------|-----|--------|-------|-------|--------|-------|------|--------|-------|
 | atomic |  22832 |      0 |  22832 |      3 |   1.00 |   0.69 |   0.03 |    .72 |  31711 |
 | cerrojo |  26405 |     0 |  26405 |      1 |   1.00 |   0.87 |   0.04 |    .91 |  29016 |
 | lamport |  27773 |     4 |  27777 |      6 |   1.00 |   0.88 |   0.03 |    .91 |  30519 |
