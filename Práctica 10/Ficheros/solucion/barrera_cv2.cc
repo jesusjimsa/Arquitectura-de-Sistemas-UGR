@@ -7,6 +7,7 @@
 #include <condition_variable>  // condition_variable
 #include <iostream>            // cout endl
 #include <mutex>               // mutex unique_lock
+#include <string>              // string
 #include <thread>              // thread
 
 //---------------------------------------------------------
@@ -45,22 +46,15 @@ private:
 
 //---------------------------------------------------------
 
-void msg(int yo, const char *txt)
-{
-	static std::mutex m;
-	std::unique_lock<std::mutex> l(m);
-	std::cout << yo << ": " << txt << std::endl;
-}
-
-//---------------------------------------------------------
-
 void hebra(int yo)
 {
+	std::string   antes = std::to_string(yo) +   ": antes\n", 
+	            despues = std::to_string(yo) + ": después\n";
 	while(true)
 	{
-		msg(yo, "antes");
+		std::cout << antes;
 		barrera.esperar();
-		msg(yo, "después");
+		std::cout << despues;
 	}
 }
 

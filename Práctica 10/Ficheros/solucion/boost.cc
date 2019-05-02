@@ -5,6 +5,7 @@
 #include <unistd.h>  // alarm
 #include <iostream>  // cout endl
 #include <mutex>     // mutex
+#include <string>    // string
 #include <thread>    // thread
 #include <boost/thread/barrier.hpp> // barrier
 
@@ -18,22 +19,15 @@ boost::barrier barrera(N);
 
 //---------------------------------------------------------
 
-void msg(int yo, const char *txt)
-{
-	static std::mutex m;
-	std::unique_lock<std::mutex> l(m);
-	std::cout << yo << ": " << txt << std::endl;
-}
-
-//---------------------------------------------------------
-
 void hebra(int yo)
 {
+	std::string   antes = std::to_string(yo) +   ": antes\n", 
+	            despues = std::to_string(yo) + ": después\n";
 	while(true)
 	{
-		msg(yo, "antes");
+		std::cout << antes;
 		barrera.wait();
-		msg(yo, "después");
+		std::cout << despues;
 	}
 }
 

@@ -7,8 +7,9 @@ DAT = $(EXE:=.dat)
 LOG = $(EXE:=.log)
 SEE = $(EXE:=.see)
 
-#CXXFLAGS = -march=native -O3 -pthread --std=c++1z -Wall -Wl,--no-as-needed
-CXXFLAGS = -lboost_thread -march=native -O3 -pthread --std=c++17 -Wall -Wl,--no-as-needed
+CXXFLAGS = -march=native -O3 -pthread --std=c++17 -Wall
+LDFLAGS =  -Wl,--no-as-needed
+LDLIBS = -lboost_thread
 
 default: stat
 
@@ -21,12 +22,12 @@ clave: $(EXE)
 		pad=12; \
 		for j in "$$@"; do \
 			lpad "$$j" $$pad; \
-			pad=7; \
+			pad=8; \
 		done; \
 		echo; \
 	}; \
-	printf '%75s\n' | tr ' ' '-'; \
-	echo -e "clave:" ; \
+	printf '%84s\n' | tr ' ' '-'; \
+	echo -e "clave: una almoadilla después del nombre del programa indica error" ; \
 	echo -e " \t amin: mínimo número de antes" ; \
 	echo -e " \t amax: máximo número de antes"; \
 	echo -e " \t dmin: mínimo número de después" ; \
@@ -36,9 +37,9 @@ clave: $(EXE)
 	echo -e " \t sys : tiempo del sistema consumido en segundos"; \
 	echo -e " \t u+s : suma de tiempos de usuario y sistema en segundos"; \
 	echo -e " \t m/t : msg / (user + sys)"; \
-	printf '%75s\n' | tr ' ' '-'; \
+	printf '%84s\n' | tr ' ' '-'; \
 	pretty_print "programa" "amin" "amax" "dmin" "dmax" "msg" "user" "sys" "u+s" "m/t"; \
-	printf '%75s\n' | tr ' ' '-'; \
+	printf '%84s\n' | tr ' ' '-'; \
 
 clean:
 	-rm -fv $(DAT) $(EXE) $(LOG) $(SEE) perf.* core* *~
@@ -46,24 +47,24 @@ clean:
 
 sort: stat
 	@echo 'sort by msg'; \
-	printf '%75s\n' | tr ' ' '-'; \
+	printf '%84s\n' | tr ' ' '-'; \
 	cat $(SEE) | sort -n -k 10 -r | sort -n -k 6 -r -s; \
-	printf '%75s\n' | tr ' ' '-'; \
+	printf '%84s\n' | tr ' ' '-'; \
 	echo 'sort by u+s'; \
-	printf '%75s\n' | tr ' ' '-'; \
+	printf '%84s\n' | tr ' ' '-'; \
 	cat $(SEE) | sort -n -k 10 -r | sort -n -k 9 -s; \
-	printf '%75s\n' | tr ' ' '-'; \
+	printf '%84s\n' | tr ' ' '-'; \
 	echo 'sort by m/t'; \
-	printf '%75s\n' | tr ' ' '-'; \
+	printf '%84s\n' | tr ' ' '-'; \
 	cat $(SEE) | sort -n -k 10 -r; \
-	printf '%75s\n' | tr ' ' '-'
+	printf '%84s\n' | tr ' ' '-'
 
 stat: clave
 	@for i in $(SEE); do \
 		$(MAKE) -s $$i; \
 		cat $$i; \
 	done; \
-	printf '%75s\n' | tr ' ' '-'
+	printf '%84s\n' | tr ' ' '-'
 
 boost: CXXFLAGS+=-lboost_system -lboost_thread
 
@@ -80,7 +81,7 @@ boost: CXXFLAGS+=-lboost_system -lboost_thread
 		pad=12; \
 		for j in "$$@"; do \
 			lpad "$$j" $$pad; \
-			pad=7; \
+			pad=8; \
 		done; \
 		echo; \
 	}; \

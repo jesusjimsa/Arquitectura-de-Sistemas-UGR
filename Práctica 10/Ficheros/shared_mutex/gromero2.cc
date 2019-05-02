@@ -47,22 +47,15 @@ private:
 
 //---------------------------------------------------------
 
-void msg(int yo, const char *txt)
-{
-	static std::mutex m;
-	std::unique_lock<std::mutex> l(m);
-	std::cout << yo << ": " << txt << std::endl;
-}
-
-//---------------------------------------------------------
-
 void hebra(int yo)
 {
+	std::string   antes = std::to_string(yo) +   ": antes\n", 
+	            despues = std::to_string(yo) + ": después\n";
 	while(true)
 	{
-		msg(yo, "antes");
-		barrera.esperar(yo);
-		msg(yo, "después");
+		std::cout << antes;
+		barrera.esperar();
+		std::cout << despues;
 	}
 }
 
