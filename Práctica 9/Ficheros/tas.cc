@@ -38,7 +38,7 @@ public:
 	cerrojo(): cerrado(false) {} // inicialmente abierto
 
 	void adquirir() {
-		while (cerrado); // espera ocupada
+		while (test_and_set(&cerrado)); // espera ocupada
 		cerrado = true; // cerrar
 	}
 
