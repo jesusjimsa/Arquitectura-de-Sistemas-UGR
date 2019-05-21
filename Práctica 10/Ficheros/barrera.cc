@@ -27,6 +27,7 @@ public:
 void hebra(int yo){
 	string   antes = to_string(yo) +   ": antes\n",
 	            despues = to_string(yo) + ": después\n";
+	
 	while(true){
 		cout << antes;
 		barrera.esperar();
