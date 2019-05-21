@@ -16,8 +16,7 @@ const int N = 7;
 
 //---------------------------------------------------------
 
-class barrera_t
-{
+class barrera_t{
 public:
 	barrera_t(unsigned _limite) {}
 	void esperar() {}
