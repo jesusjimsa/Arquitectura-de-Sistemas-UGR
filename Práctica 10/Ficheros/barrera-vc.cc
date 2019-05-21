@@ -30,7 +30,7 @@ public:
 		}
 		else{
 			uso = 1 - uso_local;
-			en_espera[uso] = 0;
+			en_espera[uso_local] = 0;
 			cv.notify_all();
 		}
 	}
