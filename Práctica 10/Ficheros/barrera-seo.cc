@@ -30,9 +30,10 @@ public:
 		m.lock();
 		sem_post(&sem[uso_local]);
 		m.unlock();
-
-		sem_wait(&sem[uso_local]);
+		
 		uso = 1 - uso;
+		
+		sem_wait(&sem[uso_local]);		
 	}
 
 private:
