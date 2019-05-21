@@ -20,8 +20,8 @@ const int N = 7;
 class barrera_t{
 public:
 	barrera_t(unsigned _limite): uso(0), limite(_limite) {
-		sem_init(sem[0], 0, 0);
-		sem_init(sem[1], 0, 0);
+		sem_init(&sem[0], 0, 0);
+		sem_init(&sem[1], 0, 0);
 	}
 
 	void esperar(){
