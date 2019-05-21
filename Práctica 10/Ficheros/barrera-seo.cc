@@ -26,13 +26,12 @@ public:
 
 	void esperar(){
 		unsigned uso_local = uso;
-		unsigned value;
 
 		m.lock();
 		sem_post(&sem[uso_local]);
 		m.unlock();
 
-		sem_wait(sem[uso_local]);
+		sem_wait(&sem[uso_local]);
 	}
 
 private:
