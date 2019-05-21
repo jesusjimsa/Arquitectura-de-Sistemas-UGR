@@ -9,7 +9,7 @@ SEE = $(EXE:=.see)
 
 CXXFLAGS = -march=native -O3 -pthread --std=c++17 -Wall
 LDFLAGS =  -Wl,--no-as-needed
-LDLIBS = -lboost_thread
+#LDLIBS = -lboost_thread
 
 default: stat
 
