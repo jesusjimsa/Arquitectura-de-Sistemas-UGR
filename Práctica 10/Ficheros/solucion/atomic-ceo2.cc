@@ -11,7 +11,7 @@
 
 //---------------------------------------------------------
 
-const int N = 32;
+const int N = 7;
 
 //---------------------------------------------------------
 
@@ -39,8 +39,8 @@ public:
 	}
 
 private:
-	std::atomic<unsigned> en_espera[2], uso;
-	unsigned limite;
+	std::atomic<unsigned> en_espera[2];
+	unsigned limite, uso;
 } barrera(N);
 
 //---------------------------------------------------------

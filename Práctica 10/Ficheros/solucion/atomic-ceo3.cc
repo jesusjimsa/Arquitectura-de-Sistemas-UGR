@@ -1,49 +1,46 @@
 //---------------------------------------------------------
-// atomic-ceo3.cc
+// atomic-ceo5.cc
 //---------------------------------------------------------
 
-#include <unistd.h>  // alarm
-#include <atomic>
-#include <chrono>
+#include <unistd.h>  // alarm 
+#include <atomic>    // atomic
+#include <chrono>    // us
 #include <iostream>  // cout endl
 #include <mutex>     // mutex
 #include <string>    // string
 #include <thread>    // thread
 
-using namespace std::chrono;
-
 //---------------------------------------------------------
 
-const int N = 32;
+const int N = 7;
 
 //---------------------------------------------------------
 
 class barrera_t
 {
 public:
-	explicit barrera_t(unsigned _limite): limite(_limite) {}
+	explicit barrera_t(unsigned l): limite(l) {}
 
 	void esperar()
 	{
-		unsigned uso_local = uso;
-
-		++en_espera[uso_local];
-
-		if (en_espera[uso_local] == limite)
+		unsigned mi_ciclo = ciclo;
+		if (++en_espera == limite)
 		{
-			uso = 1 - uso;
-			en_espera[uso_local] = 0;
+			en_espera = 0;
+			++ciclo;
 		}
 		else
 		{
-			while(en_espera[uso_local] > 0)
-				std::this_thread::sleep_for(256ns);
+			using namespace std::chrono;
+			auto espera = 32us;
+			while(ciclo == mi_ciclo)
+				std::this_thread::sleep_for(espera *= 2);
 		}
 	}
 
 private:
-	std::atomic<unsigned> en_espera[2], uso;
-	unsigned limite;
+	std::atomic<unsigned> en_espera;
+	unsigned ciclo, limite;
 } barrera(N);
 
 //---------------------------------------------------------
@@ -59,7 +56,6 @@ void hebra(int yo)
 		std::cout << despues;
 	}
 }
-
 //---------------------------------------------------------
 
 int main()
@@ -71,4 +67,3 @@ int main()
 }
 
 //---------------------------------------------------------
-

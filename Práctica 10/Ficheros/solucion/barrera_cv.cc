@@ -11,7 +11,7 @@
 
 //---------------------------------------------------------
 
-const int N = 32;
+const int N = 7;
 
 //---------------------------------------------------------
 
@@ -19,7 +19,7 @@ class barrera_t
 {
 public:
 	explicit barrera_t(unsigned _limite):
-		en_espera{0, 0}, uso(0), limite(_limite) {}
+		en_espera{0, 0}, limite(_limite), uso(0) {}
 
 	void esperar()
 	{
@@ -38,8 +38,8 @@ public:
 	}
 
 private:
-	volatile unsigned en_espera[2], uso;
-	unsigned limite;
+	volatile unsigned en_espera[2];
+	unsigned limite, uso;
 	std::mutex m;
 	std::condition_variable restart;
 } barrera(N);
