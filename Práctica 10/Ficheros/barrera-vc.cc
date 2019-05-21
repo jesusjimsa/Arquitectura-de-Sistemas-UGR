@@ -26,7 +26,7 @@ public:
 		unsigned uso_local = uso;
 
 		if(++en_espera[uso_local] < limite){
-			cv.wait(lk, [&]{return en_espera[uso_local] == 0});
+			cv.wait(lk, [&]{return en_espera[uso_local] == 0};);
 		}
 		else{
 			uso = 1 - uso_local;
@@ -45,7 +45,7 @@ private:
 //---------------------------------------------------------
 
 void hebra(int yo){
-	string antes = to_string(yo) + ": antes\n"
+	string antes = to_string(yo) + ": antes\n";
 	string despues = to_string(yo) + ": después\n";
 
 	while(true){
