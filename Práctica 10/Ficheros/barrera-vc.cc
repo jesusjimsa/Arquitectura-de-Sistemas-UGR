@@ -19,26 +19,35 @@ const int N = 7;
 
 class barrera_t{
 public:
-	barrera_t(unsigned _limite) {}
-	
+	barrera_t(unsigned _limite): en_espera{0, 0}, limite(_limite), uso(0) {}
+
 	void esperar() {
 		unique_lock<mutex> lk(m);
-		cv.wait(lk);
-		lk.unlock();
-    	cv.notify_one();
+		unsigned uso_local = uso;
+
+		if(++en_espera[uso_local] < limite){
+			cv.wait(lk, [&]{return en_espera[uso_local] == 0});
+		}
+		else{
+			uso = 1 - uso_local;
+			en_espera[uso] = 0;
+			cv.notify_all();
+		}
 	}
 
 private:
-	condition_variable cv;
 	mutex m;
+	condition_variable cv;
+	volatile unsigned en_espera[2];
+	unsigned limite, uso;
 } barrera(N);
 
 //---------------------------------------------------------
 
 void hebra(int yo){
-	string   antes = to_string(yo) +   ": antes\n",
-	            despues = to_string(yo) + ": después\n";
-	
+	string antes = to_string(yo) + ": antes\n"
+	string despues = to_string(yo) + ": después\n";
+
 	while(true){
 		cout << antes;
 		barrera.esperar();
