@@ -8,6 +8,8 @@
 #include <string>    // string
 #include <thread>    // thread
 
+using namespace std;
+
 //---------------------------------------------------------
 
 const int N = 7;
@@ -23,26 +25,29 @@ public:
 
 //---------------------------------------------------------
 
-void hebra(int yo)
-{
-	std::string   antes = std::to_string(yo) +   ": antes\n", 
-	            despues = std::to_string(yo) + ": después\n";
-	while(true)
-	{
-		std::cout << antes;
+void hebra(int yo){
+	string   antes = to_string(yo) +   ": antes\n",
+	            despues = to_string(yo) + ": después\n";
+	while(true){
+		cout << antes;
 		barrera.esperar();
-		std::cout << despues;
+		cout << despues;
 	}
 }
 
 //---------------------------------------------------------
 
-int main()
-{
+int main(){
 	alarm(1);
-	std::thread t[N];
-	for (int i = 0; i < N; ++i) t[i] = std::thread(hebra, i);
-	for (auto& i: t) i.join();
+	thread t[N];
+
+	for (int i = 0; i < N; ++i){
+		t[i] = thread(hebra, i);
+	}
+
+	for (auto& i: t){
+		i.join();
+	}
 }
 
 //---------------------------------------------------------
