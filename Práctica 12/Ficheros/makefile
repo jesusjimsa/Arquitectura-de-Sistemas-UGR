@@ -8,16 +8,16 @@ REO = $(sort $(filter reorder%,$(EXE)))
 SRC = $(wildcard *.cc)
 TXT = $(REO:=.txt)
 
-CXXFLAGS = -g -march=native -O3 -pthread -Wall
+CXXFLAGS = -g -march=native -O3 -pthread -Wall # -fpie -pie
 
-default: $(EXE)
-
-all: default stat
+all: att stat
 
 att: $(ATT)
 
 clean:
 	-rm -fv $(ATT) $(DAT) $(EXE) $(LOG) $(TXT) *~
+
+exe: $(EXE)
 
 stat: $(REO)
 	@printf '%80s\n' | tr ' ' '-'; \
@@ -55,25 +55,9 @@ productor-%.att: ipc-%
 	@/usr/bin/time -f "%e\n%U\n%S" -o "./$<.dat" "./$<" 2> /dev/null > "./$<.log"
 
 %.txt: %.dat %.log makefile
-	@function lpad \
-	{ \
-		word="$$1"; \
-		while [ $${#word} -lt $$2 ]; do \
-			word="$$3$$word"; \
-		done; \
-		echo -n "$$word"; \
-	}; \
-	function pretty_print \
-	{\
-		for j in "$$@"; do \
-			if [ "$$j" == "$$1" ]; then \
-				lpad "$$j" 17 ' '; \
-			else \
-				lpad "$$j" 9 ' '; \
-			fi; \
-		done; \
-		echo; \
-	}; \
+	@pad=17; \
+	lpad() { printf "%$$(( $$pad - $${#1} ))s$$1"; pad=9; }; \
+	print() { lpad "$$1"; shift; (( $$# > 0 )) && print "$$@" || echo; pad=17; }; \
 	reorders=$$(tail -1 "./$*.log" | cut -d ' ' -f 1); \
 	iteraciones=$$(tail -1 "./$*.log" | cut -d ' ' -f 5); \
 	real=$$(sed '1q;d' "./$*.dat"); \
@@ -81,8 +65,8 @@ productor-%.att: ipc-%
 	sistema=$$(sed '3q;d' "./$*.dat"); \
 	total=$$(bc -lq <<< "$$usuario + $$sistema"); \
 	rate=$$(bc -q <<< "$$iteraciones/$$total"); \
-	pretty_print $* $$reorders $$iteraciones $$real $$usuario $$sistema $$total $$rate > $@
+	print $* $$reorders $$iteraciones $$real $$usuario $$sistema $$total $$rate > $@
 
 .PRECIOUS: $(DAT) $(LOG) $(TXT)
-.PHONY: all att clean default stat
+.PHONY: all att clean exe stat
 

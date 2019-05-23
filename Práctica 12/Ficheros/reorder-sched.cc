@@ -23,7 +23,7 @@ void t1()
 		m1.lock();
 		while (rng() != 0);
 		x = 1;
-		// asm volatile ("":::"memory");
+		asm volatile ("":::"memory");
 		r1 = y;
 		m3.unlock();
 	}
@@ -36,7 +36,7 @@ void t2()
 		m2.lock();
 		while (rng() != 0);
 		y = 1;
-		// asm volatile ("":::"memory");
+		asm volatile ("":::"memory");
 		r2 = x;
 		m4.unlock();
 	}

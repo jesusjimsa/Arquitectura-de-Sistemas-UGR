@@ -7,6 +7,8 @@
 #include <random>
 #include <thread>
 
+using namespace std;
+
 int x, y, r1, r2;
 unsigned reorders = 0, iterations = 0;
 std::atomic<bool> run(true);
@@ -60,7 +62,7 @@ int main()
 	std::lock(m1, m2, m3, m4);
 	std::thread t[] = {std::thread(t1), std::thread(t2), std::thread(t3)};
 	
-	std::this_thread::sleep_for(std::chrono::milliseconds(250));
+	std::this_thread::sleep_for(250ms);
 	run = false;
 	m1.unlock();
 	m2.unlock();
