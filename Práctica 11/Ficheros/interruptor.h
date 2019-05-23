@@ -15,7 +15,7 @@ public:
 	interruptor(): contador(0) {}
 
 	void lock(mutex& llave){
-		lock_guard<mutex> lock(mutex);
+		lock_guard<mutex> lock(mtx);
 		
 		if (++contador == 1){
 			llave.lock();
@@ -23,7 +23,7 @@ public:
 	}
 
 	void unlock(mutex& llave){
-		lock_guard<mutex> lock(mutex);
+		lock_guard<mutex> lock(mtx);
 		
 		if (--contador == 0){
 			llave.unlock();
@@ -32,7 +32,7 @@ public:
 
 private:
 	atomic<unsigned> contador;
-	mutex mutex;
+	mutex mtx;
 };
 
 //---------------------------------------------------------
