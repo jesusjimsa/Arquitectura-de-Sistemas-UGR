@@ -17,28 +17,45 @@ using namespace std;
 //-----------------------------------------------------
 
 atomic<bool> run(true);
-interruptor interr;
+interruptor no_lectores, no_escritores;
 mutex mtx;
+int num_lectores = 0;
 
 //-----------------------------------------------------
 
 void seccion_critica(char c){
-	interr.lock(mtx);
-
 	for (char i = 0; i < 10; ++i){
 		cout << c++;
 	}
 
 	cout << endl;
-
-	interr.unlock(mtx);
 }
 
 //-----------------------------------------------------
 
 void lector(){
 	while (run){
+		no_lectores.lock(mtx);
+		
+		++num_lectores;
+		
+		if(num_lectores == 1){
+			no_escritores.lock(mtx);
+		}
+
+		no_lectores.unlock(mtx);
+
 		seccion_critica('0');
+
+		no_lectores.lock(mtx);
+
+		--num_lectores;
+		
+		if(num_lectores == 0){
+			no_escritores.unlock(mtx);
+		}
+
+		no_lectores.unlock(mtx);
 	}
 }
 
@@ -46,7 +63,9 @@ void lector(){
 
 void escritor(){
 	while (run){
+		no_escritores.lock(mtx);
 		seccion_critica('a');
+		no_escritores.unlock(mtx);
 	}
 }
 
