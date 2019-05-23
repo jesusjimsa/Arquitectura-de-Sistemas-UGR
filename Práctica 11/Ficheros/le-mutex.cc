@@ -55,7 +55,7 @@ int main(){
 
 	for (unsigned i = 0; i < N; ++i){
 		if (engine() & 1){
-			  lectores[i] = thread(  lector);
+			lectores[i] = thread(  lector);
 			escritores[i] = thread(escritor);
 		}
 		else{
