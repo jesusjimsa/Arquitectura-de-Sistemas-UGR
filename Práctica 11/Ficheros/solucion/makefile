@@ -8,8 +8,8 @@ LIN = $(EXE:=.lin)
 LOG = $(EXE:=.log)
 
 CXXFLAGS = -I. -march=native -O3 -pthread --std=c++17 -Wall
-LDFLAGS  = -Wl,--no-as-needed
-LDLIBS   = -lpthread -lrt
+#LDFLAGS  = -Wl,--no-as-needed
+#LDLIBS   = -lpthread -lrt
 
 all: stat
 
