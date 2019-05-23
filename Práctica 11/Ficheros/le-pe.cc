@@ -8,7 +8,6 @@
 #include <random>
 #include <thread>
 #include <mutex>
-#include <interruptor.h>
 
 //-----------------------------------------------------
 
