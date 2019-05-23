@@ -8,7 +8,7 @@ REO = $(sort $(filter reorder%,$(EXE)))
 SRC = $(wildcard *.cc)
 TXT = $(REO:=.txt)
 
-CXXFLAGS = -g -march=native -O3 -pthread -Wall # -fpie -pie
+CXXFLAGS = -g -std=c++17 -march=native -O3 -pthread -Wall # -fpie -pie
 
 all: att stat
 
