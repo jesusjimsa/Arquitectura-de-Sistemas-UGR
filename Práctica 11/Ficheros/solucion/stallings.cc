@@ -15,10 +15,10 @@ using namespace std;
 
 //---------------------------------------------------------
 
-atomic<bool> run(true);
-mutex em_leyendo;               // exclusión mutua leyendo
-volatile unsigned leyendo = 0;  // nº lectores
-mutex no_escritor;              // exclusion mutua l/e
+atomic<bool> run(true);  // finish when false
+mutex em_leyendo;        // exclusión mutua leyendo
+unsigned leyendo = 0;    // nº lectores
+mutex no_escritor;       // exclusion mutua l/e
 
 //---------------------------------------------------------
 
@@ -79,7 +79,7 @@ int main()
 			  lectores[i] = thread(  lector);
 		}
 	
-	this_thread::sleep_for(chrono::seconds(1));
+	this_thread::sleep_for(1s);
 	run = false;
 	
 	for(thread& i:   lectores) i.join();

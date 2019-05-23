@@ -150,7 +150,7 @@ int main()
 			  lectores[i] = thread(  lector);
 		}
 	
-	this_thread::sleep_for(chrono::seconds(1));
+	this_thread::sleep_for(1s);
 	run = false;
 	
 	for(thread& i:   lectores) i.join();

@@ -1,18 +1,19 @@
 SHELL = /bin/bash
 
+ATT = $(EXE:=.att)
 SRC = $(sort $(wildcard *.c *.cc))
 EXE = $(basename $(SRC))
 DAT = $(EXE:=.dat)
 LIN = $(EXE:=.lin)
 LOG = $(EXE:=.log)
 
-CFLAGS = -I. -march=native -O3 -pthread --std=c11 -Wall -Wl,--no-as-needed
-CXXFLAGS = $(CFLAGS:c11=c++17)
-LDFLAGS  = -lpthread -lrt
+CXXFLAGS = -I. -march=native -O3 -pthread --std=c++17 -Wall
+LDFLAGS  = -Wl,--no-as-needed
+LDLIBS   = -lpthread -lrt
 
-default: stat
+all: stat
 
-all: sort
+att: $(ATT)
 
 clean:
 	-rm -fv $(DAT) $(EXE) $(LIN) $(LOG) core* *~
@@ -32,36 +33,22 @@ key:
 	printf '%77s\n' | tr ' ' '-'
 
 stat: $(EXE)
-	@function lpad { printf "%$$(( $$2 - $${#1} ))s$$1"; }; \
-	function pretty_print \
-	{ \
-		pad=14; \
-		for j in "$$@"; do \
-			lpad "$$j" $$pad; \
-			pad=7; \
-		done; \
-		echo; \
-	}; \
+	@pad=14; \
+	lpad() { printf "%$$(( $$pad - $${#1} ))s$$1"; pad=7; }; \
+	print() { lpad "$$1"; shift; (( $$# > 0 )) && print "$$@" || echo; pad=14; }; \
 	make -s key; \
-	pretty_print programa nºlec nºesc total cc real user sys u+s ratio; \
+	print programa nºlec nºesc total cc real user sys u+s ratio; \
 	printf '%77s\n' | tr ' ' '-'; \
 	for i in $(LIN); do \
 		make -s $$i; \
-		pretty_print $$(<$$i); \
+		print $$(<$$i); \
 	done; \
 	printf '%77s\n' | tr ' ' '-'
 
 sort: stat
-	@function lpad { printf "%$$(( $$2 - $${#1} ))s$$1"; }; \
-	function pretty_print \
-	{ \
-		pad=14; \
-		for j in "$$@"; do \
-			lpad "$$j" $$pad; \
-			pad=7; \
-		done; \
-		echo; \
-	}; \
+	@pad=14; \
+	lpad() { printf "%$$(( $$pad - $${#1} ))s$$1"; pad=7; }; \
+	print() { lpad "$$1"; shift; (( $$# > 0 )) && print "$$@" || echo; pad=14; }; \
 	declare -a K=(2 3 4 5 9 10); \
 	declare -a F=('nºlec' 'nºesc' 'total' 'cc' 'u+s' 'ratio'); \
 	declare -a R=('-r' '-r' '-r' '-r' '-s' '-r'); \
@@ -70,10 +57,13 @@ sort: stat
 		printf '%77s\n' | tr ' ' '-'; \
 		while read line; do \
 			declare -a l=($$line); \
-			pretty_print $${l[@]}; \
+			print $${l[@]}; \
 		done < <(cat $(LIN) | sort -k $${K[$$i]} -n $${R[$$i]}); \
 		printf '%77s\n' | tr ' ' '-'; \
 	done
+
+%.att: %
+	objdump -Cd $< > $@
 
 %.dat %.log: %
 	-@/usr/bin/time -f "%e \t%U \t%S" -o $*.dat ./$< > $*.log 2> /dev/null
@@ -101,5 +91,5 @@ n%: $(SRC)
 	find -maxdepth 2 -mindepth 2 -name makefile -execdir make $@ \;
 
 .PRECIOUS: $(DAT) $(LIN) $(LOG)
-.PHONY: all clean default sort stat
+.PHONY: all clean key sort stat
 
