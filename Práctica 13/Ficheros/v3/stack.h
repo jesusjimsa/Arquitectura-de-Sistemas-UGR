@@ -1,6 +1,7 @@
 #ifndef stack_h
 #define stack_h 1
 
+#include <atomic>
 #include <exception>
 
 template<class T> class stack
@@ -19,24 +20,26 @@ public:
 
 	void push(const T& t)
 	{
-/*		node* n = new node(head, t);*/
-/*		head = n;*/
-		head = new node(head, t);
+		node* n = new node(head, t);
+		while (!head.compare_exchange_weak(n->next, n))
+			n->next = head;
 	}
 
 	T pop()
 	{
-		if (!head)
-			throw empty();
-		node* n = head;
-		head = head->next;
+		node* n;
+		do {
+			if (!head)
+				throw empty();
+			n = head;
+		} while (!head.compare_exchange_weak(n, n->next));
 		T t = n->data;
 		delete n;
 		return t;
 	}
 
 private:
-	node* head;
+	std::atomic<node*> head;
 };
 
 #endif // stack_h

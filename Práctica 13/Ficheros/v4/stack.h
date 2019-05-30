@@ -19,20 +19,24 @@ public:
 
 	void push(const T& t)
 	{
-/*		node* n = new node(head, t);*/
-/*		head = n;*/
-		head = new node(head, t);
+		__transaction_atomic
+		{
+			head = new node(head, t);
+		}
 	}
 
 	T pop()
 	{
-		if (!head)
-			throw empty();
-		node* n = head;
-		head = head->next;
-		T t = n->data;
-		delete n;
-		return t;
+		__transaction_atomic
+		{
+			if (!head)
+				throw empty();
+			node* n = head;
+			head = head->next;
+			T t = n->data;
+			delete n;
+			return t;
+		}
 	}
 
 private:

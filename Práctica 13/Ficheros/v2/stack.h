@@ -2,6 +2,7 @@
 #define stack_h 1
 
 #include <exception>
+#include <mutex>
 
 template<class T> class stack
 {
@@ -19,13 +20,13 @@ public:
 
 	void push(const T& t)
 	{
-/*		node* n = new node(head, t);*/
-/*		head = n;*/
+		std::lock_guard<std::mutex> l(m);
 		head = new node(head, t);
 	}
 
 	T pop()
 	{
+		std::lock_guard<std::mutex> l(m);
 		if (!head)
 			throw empty();
 		node* n = head;
@@ -36,6 +37,7 @@ public:
 	}
 
 private:
+	std::mutex m;
 	node* head;
 };
 

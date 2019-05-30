@@ -1,2 +1,0 @@
-esta versión padece el problema ABA... entre otros :(
-

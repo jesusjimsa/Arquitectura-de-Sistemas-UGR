@@ -1,6 +1,32 @@
-acabar tagged --> escribir stack.h
-crear ejemplo basado en boost::tagger_ptr
-crear ejemplo basado en boost::lockfree::stack
-crear ejemplo basado en hazard pointers
-----------------------------------------------
-mejorar ejemplos dejando de usar new/delete
+################################################################################
+
+versiones:
+	v0) pila normal, versión secuencial (funciona)
+	v1) pila normal, versión paralela (no funciona)
+	v2) pila bloqueante con mutex
+	v2.2) pila bloqueante con mutex y marcha atrás exponencial
+	v2.3) pila bloqueante con cerrojo y marcha atrás exponencial
+ 	v3) pila no bloqueante mediantes CAS con problema ABA --> ¿tiene arreglo?
+	v4) pila no bloqueante mediante memoria transaccional
+	v5) corregir 3 mediante doble CAS --> hazlo tú
+	v6) corregir 3 mediante punteros etiquetados --> hazlo tú
+	boost) pila no bloqueante de la biblioteca boost
+
+################################################################################
+
+lockfree stack:
+	1) https://www.memsql.com/blog/common-pitfalls-in-writing-lock-free-algorithms/
+	2) https://github.com/memsql/lockfree-bench/tree/master/stack
+
+################################################################################
+
+el problema ABA:
+	3) https://en.wikipedia.org/wiki/ABA_problem
+
+################################################################################
+
+lockfree memory allocator:
+	4) https://github.com/mjansson/rpmalloc
+
+################################################################################
+
