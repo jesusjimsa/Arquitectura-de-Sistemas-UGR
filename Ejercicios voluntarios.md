@@ -32,8 +32,8 @@ En el sistema operativo Linux, con la versión del kernel 2.6, un cambio de cont
 En el sistema operativo macOS, con la versión 10.14.3, menos de 10 µs (no he encontrado información más precisa).  
 
 ## Implementación de la práctica ping/pong con colas de mensajes y socket
-- [Colas de mensajes](https://github.com/jesusjimsa/Arquitectura-de-Sistemas-UGR/blob/master/Práctica%204/ping-pong/ping.pong.mq.cc)
-- [Socket](https://github.com/jesusjimsa/Arquitectura-de-Sistemas-UGR/blob/master/Práctica%204/ping-pong/ping.pong.socket.cc)
+- [Colas de mensajes](Práctica%204/ping-pong/ping.pong.mq.cc)
+- [Socket](Práctica%204/ping-pong/ping.pong.socket.cc)
 
 ## Tipos de monitores. ¿De cual de los dos tipos es std::condition_variable?
 ### Hoare
